@@ -1191,6 +1191,9 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📋 Tablas",
 ])
 
+# =========================================================
+# TAB 1: MEJOR MÉTODO
+# =========================================================
 with tab1:
     st.subheader("🏆 Análisis Estratégico: Mejor Método por Producto")
     st.write(
@@ -1205,11 +1208,7 @@ with tab1:
     )
 
     resumen_mejores = resumen_mejores[[
-        "Producto",
-        "Método",
-        "wMAPE",
-        "Bias",
-        "MAE",
+        "Producto","Método","wMAPE","Bias","MAE",
     ]].rename(columns={"Método": "Mejor método"})
 
     col_graf, col_tabla = st.columns([1.2, 1])
@@ -1255,7 +1254,6 @@ with tab1:
         )
 
     st.divider()
-
     st.subheader("🔎 Detalle por Producto")
 
     metodos_disponibles = conteo_metodos["Método"].tolist()
@@ -1287,10 +1285,7 @@ with tab1:
                 help="Sesgo del pronóstico (Positivo = Sobrepronóstico, Negativo = Subpronóstico)",
                 format="%.2f %%",
             ),
-            "MAE": st.column_config.NumberColumn(
-                "MAE (Unidades)",
-                format="%.2f",
-            ),
+            "MAE": st.column_config.NumberColumn("MAE (Unidades)",format="%.2f"),
         },
     )
 
@@ -1305,6 +1300,9 @@ with tab1:
         mime="text/csv",
     )
 
+# =========================================================
+# TAB 2: DATOS Y PRONÓSTICO
+# =========================================================
 with tab2:
     st.subheader("📊 Análisis de Demanda y Proyección")
     st.write(
@@ -1333,20 +1331,19 @@ with tab2:
             st.error("Precisión baja. Posible demanda errática o quiebre de stock.")
 
     st.markdown("### 📋 Comparativa de Métodos (Validación Cruzada)")
-
     df_comp = formatear_comparacion(sub_comparacion_producto)
 
     def highlight_best(row):
-        return [
-            "background-color: #d4edda" if "✅" in str(val) else ""
-            for val in row
-        ]
+        return ["background-color: #d4edda" if "✅" in str(val) else "" for val in row]
 
     st.dataframe(
         df_comp.style.apply(highlight_best, axis=1),
         use_container_width=True,
         hide_index=True,
     )
+# =========================================================
+# TAB 3: COMPARACIÓN ECONÓMICA Y POLÍTICA LOGÍSTICA
+# =========================================================
 
 with tab3:
     st.subheader("💰 Comparación económica")
